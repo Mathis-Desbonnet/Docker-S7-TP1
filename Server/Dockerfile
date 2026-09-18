@@ -22,7 +22,7 @@ RUN mvn package -DskipTests
 # docker run --name Docker_S7-TP1-Server mathisdesbonnet/docker_s7-tp1-server
 # Show Hello World !
 
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:21-jre-alpine AS backend_service
 
 # Créer ma variable d'environnement pour accèder facilement aux fichiers
 ENV MYAPP_HOME=/opt/myapp
@@ -34,5 +34,5 @@ COPY --from=server-build $MYAPP_HOME/target/*.jar $MYAPP_HOME/myapp.jar
 # Créer mon executable dans docker
 ENTRYPOINT ["java", "-jar", "myapp.jar"]
 
-# docker build -t mathisdesbonnet/docker_s7-tp1-server .
-# docker run -p 8080:8080 --name Docker_S7-TP1-Server mathisdesbonnet/docker_s7-tp1-server
+# Build : docker build -t mathisdesbonnet/docker_s7-tp1-server .
+# Run : docker run -d -p 8080:8080 --network Docker_S7-TP1-Network --name Docker_S7-TP1-Server mathisdesbonnet/docker_s7-tp1-server

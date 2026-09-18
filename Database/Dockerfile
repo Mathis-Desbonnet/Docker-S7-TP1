@@ -1,5 +1,5 @@
 # Je créé la base de mon image depuis l'image postgres/alpine
-FROM postgres:17.2-alpine 
+FROM postgres:17.2-alpine AS database_service
 
 #J'ajoute les variables d'environnements nécessaires au fonctionnement de la base de donnée
 ENV POSTGRES_DB=db POSTGRES_USER=usr
@@ -21,4 +21,4 @@ COPY /SQL/InsertData.sql /docker-entrypoint-initdb.d
 # Rebuild then Re-run and data are shown!
 
 # 1-2 : To have persistent data, i.e., data that stays when we destroy our container
-# New run command : docker run -d -v /my/own/datadir:/var/lib/postgresql/data -e POSTGRES_PASSWORD=pwd --network Docker_S7-TP1-Network --name DockerS7-TP1-Database mathisdesbonnet/docker_s7-tp1-database 
+# New run command : docker run -d -v /db-data:/var/lib/postgresql/data -e POSTGRES_PASSWORD=pwd --network Docker_S7-TP1-Network --name DockerS7-TP1-Database mathisdesbonnet/docker_s7-tp1-database 

@@ -1,0 +1,59 @@
+# Define all the services
+services:
+    # Create a service backend with the Dockerfile inside the Server folder
+    backend:
+        build:
+          context: ./Server
+        networks: # API, so access to network of database & client
+          - client
+          - server
+        depends_on: # If database don't work, it stops
+          database:
+            condition: service_healthy
+            restart: true
+        ports: # Use a special port in .env
+          - "${BACKEND_PORT}:8080" 
+        container_name: Docker_S7-TP1-Server # Specific container name
+        restart: on-failure:5
+
+    database:
+    # Create a service database with the Dockerfile inside the Database folder
+        build:
+          context: ./Database
+        networks: # Only access to server network
+          - server
+        volumes: # Use volumes for persistent data
+          - db-data:/var/lib/postgresql/data
+        environment: # Use environment variable
+          - POSTGRES_DB=${DATABASE_NAME}
+          - POSTGRES_USER=${DATABASE_USER}
+          - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+        container_name: DockerS7-TP1-Database
+        # Add HealthCheck to continue for the backend to start
+        healthcheck:
+          test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
+          interval: 5s
+          timeout: 30s
+          retries: 5
+          start_period: 5s
+
+    httpd:
+        build:
+          context: ./Client
+        ports:
+          - "${REVERSE_PROXY_PORT}:80"
+        networks:
+          - client
+        depends_on: # Depends on backend to start
+          backend:
+            condition: service_started
+        container_name: Docker_S7-TP1-Client
+
+networks:
+  client:
+    driver: bridge
+  server:
+    driver: bridge
+
+volumes:
+  db-data:
