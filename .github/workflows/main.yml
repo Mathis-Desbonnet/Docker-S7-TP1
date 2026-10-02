@@ -32,7 +32,9 @@ jobs:
 
         steps:
             - name: Sonar Check
-              run: mvn -B verify sonar:sonar -Dsonar.projectKey=mathis-desbonnet -Dsonar.organization="Mathis Desbonnet" -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./Server/pom.xml
+              run: |
+                  cd ./Server
+                  mvn -B verify sonar:sonar -Dsonar.projectKey=mathis-desbonnet -Dsonar.organization="Mathis Desbonnet" -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
     build-and-push-docker-image:
         needs: sonar-test
