@@ -54,6 +54,7 @@ jobs:
                   context: ./Database/
                   # Note: tags has to be all lower-case
                   tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-database:latest
+                  push: ${{ github.ref == 'refs/heads/main' }}
 
             - name: Build image and push httpd
               uses: docker/build-push-action@v6
@@ -62,3 +63,4 @@ jobs:
                   context: ./Client/
                   # Note: tags has to be all lower-case
                   tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-client:latest
+                  push: ${{ github.ref == 'refs/heads/main' }}
