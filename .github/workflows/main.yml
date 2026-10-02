@@ -14,11 +14,14 @@ jobs:
         needs: testServer
         uses: ./.github/workflows/sonarTest.yml
     dbBuild:
+        if: github.ref_name == 'main'
         needs: sonarTest
         uses: ./.github/workflows/dbBuildAndPush.yml
     serverBuild:
+        if: github.ref_name == 'main'
         needs: dbBuild
         uses: ./.github/workflows/serverBuildAndPush.yml
     clientBuild:
+        if: github.ref_name == 'main'
         needs: serverBuild
         uses: ./.github/workflows/clientBuildAndPush.yml
