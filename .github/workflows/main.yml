@@ -24,20 +24,13 @@ jobs:
               run: |
                   cd ./Server
                   mvn -e clean verify
-        # define job to build and publish docker image
-
-    sonar-test:
-        needs: test-backend
-        runs-on: ubuntu-24.04
-
-        steps:
-            - uses: actions/checkout@v4
 
             - name: Sonar Check
               run: |
                   cd ./Server
                   mvn -B verify sonar:sonar -Dsonar.projectKey=mathis-desbonnet -Dsonar.organization="Mathis Desbonnet" -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
+        # define job to build and publish docker image
     build-and-push-docker-image:
         needs: sonar-test
         # run only when code is compiling and tests are passing
