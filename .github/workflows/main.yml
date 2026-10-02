@@ -24,7 +24,6 @@ jobs:
               run: |
                   cd ./Server
                   mvn -e clean verify
-
             - name: Sonar Check
               run: |
                   cd ./Server
