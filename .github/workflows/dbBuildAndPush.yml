@@ -1,0 +1,25 @@
+name: DB Build
+on:
+    workflow_call:
+        inputs:
+            environment:
+                required: true
+                type: string
+
+jobs:
+    build-and-push-docker-image:
+        runs-on: ubuntu-24.04
+
+        steps:
+            - name: Login to DockerHub
+              run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Build image and push database
+              uses: docker/build-push-action@v6
+              with:
+                  context: ./Database/
+                  tags: ${{secrets.DOCKERHUB_USERNAME}}/tp-devops-database:latest
+                  push: ${{ github.ref == 'refs/heads/main' }}

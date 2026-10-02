@@ -1,0 +1,24 @@
+name: Main CI
+on:
+    #to begin you want to launch this job in main and develop
+    push:
+        branches:
+            - main
+            - dev
+    pull_request:
+
+jobs:
+    testServer:
+        uses: ./.github/workflows/testServer.yml
+    sonarTest:
+        needs: testServer
+        uses: ./.github/workflows/sonarTest.yml
+    dbBuild:
+        needs: sonarTest
+        uses: ./.github/workflows/dbBuildAndPush.yml
+    serverBuild:
+        needs: dbBuild
+        uses: ./.github/workflows/serverBuildAndPush.yml
+    clientBuild:
+        needs: serverBuild
+        uses: ./.github/workflows/clientBuildAndPush.yml
