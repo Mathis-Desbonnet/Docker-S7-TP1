@@ -1,9 +1,11 @@
 name: Client Build
 on:
     workflow_call:
-        inputs:
-            environment:
-                type: string
+        secrets:
+            DOCKERHUB_TOKEN:
+                required: true
+            DOCKERHUB_USERNAME:
+                required: true
 
 jobs:
     build-and-push-docker-image:

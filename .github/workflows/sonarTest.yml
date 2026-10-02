@@ -1,9 +1,9 @@
 name: SONAR Test
 on:
     workflow_call:
-        inputs:
-            environment:
-                type: string
+        secrets:
+            SONAR_TOKEN:
+                required: true
 
 jobs:
     test-backend:

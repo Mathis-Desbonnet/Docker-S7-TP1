@@ -1,10 +1,6 @@
 name: Test Server
 on:
     workflow_call:
-        inputs:
-            environment:
-                type: string
-
 jobs:
     test-backend:
         runs-on: ubuntu-24.04
