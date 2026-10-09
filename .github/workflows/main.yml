@@ -38,13 +38,14 @@ jobs:
             DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
     frontBuild:
         if: github.ref_name == 'main'
-        needs: serverBuild
+        needs: clientBuild
         uses: ./.github/workflows/frontBuildAndPush.yml
         secrets:
             DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
             DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
     ansibleBuild:
         if: github.ref_name == 'main'
+        needs: frontBuild
         uses: ./.github/workflows/ansiblePublish.yml
         secrets:
             SSH_KEY: ${{ secrets.SSH_KEY }}
