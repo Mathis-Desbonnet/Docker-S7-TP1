@@ -22,4 +22,4 @@ jobs:
 
             - name: Run Playbook
               run: |
-                  ansible-playbook -i ansible/inventories/setup.yml ansible/playbook.yml
+                  ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ansible/inventories/setup.yml ansible/deploy.yml
