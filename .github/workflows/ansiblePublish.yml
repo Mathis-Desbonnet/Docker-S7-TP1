@@ -18,7 +18,7 @@ jobs:
             - name: Run Ansible Playbook
               uses: dawidd6/action-ansible-playbook@v2
               with:
-                  playbook: ./ansible/deploy.yml
+                  playbook: deploy.yml
                   # Path to your inventory file
-                  directory: ./
-                  inventory: ./ansible/inventories/setup.yml
+                  directory: ./ansible
+                  inventory: inventories/setup.yml
