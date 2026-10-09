@@ -8,34 +8,41 @@ on:
     pull_request:
 
 jobs:
-    # testServer:
-    #     uses: ./.github/workflows/testServer.yml
-    # sonarTest:
-    #     needs: testServer
-    #     uses: ./.github/workflows/sonarTest.yml
-    #     secrets:
-    #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    # dbBuild:
-    #     if: github.ref_name == 'main'
-    #     needs: sonarTest
-    #     uses: ./.github/workflows/dbBuildAndPush.yml
-    #     secrets:
-    #         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-    #         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-    # serverBuild:
-    #     if: github.ref_name == 'main'
-    #     needs: dbBuild
-    #     uses: ./.github/workflows/serverBuildAndPush.yml
-    #     secrets:
-    #         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-    #         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-    # clientBuild:
-    #     if: github.ref_name == 'main'
-    #     needs: serverBuild
-    #     uses: ./.github/workflows/clientBuildAndPush.yml
-    #     secrets:
-    #         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-    #         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+    testServer:
+        uses: ./.github/workflows/testServer.yml
+    sonarTest:
+        needs: testServer
+        uses: ./.github/workflows/sonarTest.yml
+        secrets:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    dbBuild:
+        if: github.ref_name == 'main'
+        needs: sonarTest
+        uses: ./.github/workflows/dbBuildAndPush.yml
+        secrets:
+            DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+            DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+    serverBuild:
+        if: github.ref_name == 'main'
+        needs: dbBuild
+        uses: ./.github/workflows/serverBuildAndPush.yml
+        secrets:
+            DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+            DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+    clientBuild:
+        if: github.ref_name == 'main'
+        needs: serverBuild
+        uses: ./.github/workflows/clientBuildAndPush.yml
+        secrets:
+            DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+            DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+    frontBuild:
+        if: github.ref_name == 'main'
+        needs: serverBuild
+        uses: ./.github/workflows/frontBuildAndPush.yml
+        secrets:
+            DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+            DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
     ansibleBuild:
         if: github.ref_name == 'main'
         uses: ./.github/workflows/ansiblePublish.yml
