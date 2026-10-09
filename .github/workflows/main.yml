@@ -38,7 +38,7 @@ jobs:
             DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
     ansibleBuild:
         if: github.ref_name == 'main'
-        need: clientBuild
+        needs: clientBuild
         uses: ./.github/workflows/ansiblePublish.yml
         secrets:
             SSH_KEY: ${{ secrets.SSH_KEY }}
