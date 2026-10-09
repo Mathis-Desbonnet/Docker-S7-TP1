@@ -1,0 +1,24 @@
+name: Ansible Publish
+on:
+    workflow_call:
+        secrets:
+            SSH_KEY:
+                required: true
+jobs:
+    ansible-deploy:
+        runs-on: ubuntu-24.04
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Set up SSH key
+              run: |
+                  echo "${{ secrets.SSH_KEY }}" > id_rsa
+                  chmod 400 id_rsa
+
+            - name: Run Ansible Playbook
+              uses: dawidd6/action-ansible-playbook@v2
+              with:
+                  playbook: ./ansible/deploy.yml
+                  # Path to your inventory file
+                  directory: ./
+                  inventory: ./ansible/inventories/setup.yml
