@@ -1,0 +1,17 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/database
+- name: Run database
+  docker_container:
+    name: DockerS7-TP1-Database
+    image: mathisdesbonnet/tp-devops-database
+    networks:
+      - name: Docker_S7-TP1-Network
+    env:
+      POSTGRES_PASSWORD: "pwd"
+      DATABASE_USER: "usr"
+      DATABASE_PASSWORD: "pwd"
+    volumes:
+          - /db-data:/var/lib/postgresql/data
+    restart_policy: always
+

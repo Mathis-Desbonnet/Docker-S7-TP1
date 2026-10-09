@@ -1,0 +1,12 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/client
+- name: Start Client
+  docker_container:
+    name: Docker_S7-TP1-Client
+    image: mathisdesbonnet/tp-devops-client
+    published_ports:
+      - "3000:3000"
+      - "80:80"
+    networks:
+      - name: Docker_S7-TP1-Network 

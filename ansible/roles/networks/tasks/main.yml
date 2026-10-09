@@ -1,0 +1,6 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/networks
+- name: Create Network
+  community.docker.docker_network:
+    name: Docker_S7-TP1-Network

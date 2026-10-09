@@ -1,0 +1,15 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/server
+- name: Start Server
+  docker_container:
+    name: Docker_S7-TP1-Server
+    image: mathisdesbonnet/tp-devops-server
+    networks:
+      - name: Docker_S7-TP1-Network
+    published_ports:
+      - "8080:8080"
+    state: started
+    env:
+      DATABASE_USER: usr
+      DATABASE_PASSWORD: pwd
